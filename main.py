@@ -1,3 +1,6 @@
+import sys
+print(sys.executable)
+
 from database import initialize_database
 from constants import EVENT_CATALOG
 
@@ -10,6 +13,8 @@ from memories import *
 from memory_extraction import *
 from context_builder import *
 from prompt_builder import *
+from chat import chat_with_character
+from llm_provider import *
 
 
 
@@ -100,6 +105,7 @@ def main_menu():
     print("19. Show Memory Candidates")
     print("20. Accept Memory Candidate")
     print("21. Extract Memory From Conversation")
+    print("22. Chat with Character")
     print("0. Exit")
 
     return input(
@@ -533,12 +539,17 @@ while running:
                 print(
                     f"- {memory}"
                 )
+    elif choice == "22":
 
-        else:
+        character = input(
+            "Character Name: "
+       )
 
-            print(
-                "No memories detected."
-            )
+        chat_with_character(
+            cursor,
+            character,
+            build_ai_prompt
+        )
 
     # ====================
     # EXIT
@@ -548,7 +559,5 @@ while running:
 
         running = False
 
-print("check_quest_completion =", check_quest_completion)
-print("check_goal_completion =", check_goal_completion)
 
 conn.close()
