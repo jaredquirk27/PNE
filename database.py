@@ -1,6 +1,24 @@
 import sqlite3
 
 
+def add_column_if_missing(cursor, table_name, column_name, column_definition):
+
+    cursor.execute(f"PRAGMA table_info({table_name})")
+
+    existing_columns = {
+        row[1]
+        for row in cursor.fetchall()
+    }
+
+    if column_name in existing_columns:
+        return
+
+    cursor.execute(
+        f"ALTER TABLE {table_name} "
+        f"ADD COLUMN {column_definition}"
+    )
+
+
 def initialize_database():
 
     conn = sqlite3.connect("story_engine.db")
@@ -8,8 +26,21 @@ def initialize_database():
 
     create_tables(cursor)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS conversation_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        character_name TEXT NOT NULL,
+        speaker TEXT NOT NULL,
+        message TEXT NOT NULL,
+        day INTEGER DEFAULT 1,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
     conn.commit()
 
+    print("Database initialized and tables created (if not exist).")
+    
     return conn, cursor
 
 
@@ -86,21 +117,19 @@ def create_tables(cursor):
     )
     """)
 
-    try:
-        cursor.execute("""
-        ALTER TABLE quests
-        ADD COLUMN reward_flag TEXT
-        """)
-    except:
-        pass
+    add_column_if_missing(
+        cursor,
+        "quests",
+        "reward_flag",
+        "reward_flag TEXT"
+    )
 
-    try:
-        cursor.execute("""
-        ALTER TABLE quests
-        ADD COLUMN unlock_flag TEXT
-        """)
-    except:
-        pass
+    add_column_if_missing(
+        cursor,
+        "quests",
+        "unlock_flag",
+        "unlock_flag TEXT"
+    )
 
     # ==========================
     # QUEST OBJECTIVES
@@ -144,4 +173,3 @@ def create_tables(cursor):
     )
     """)
 
-    print("Database initialized and tables created (if not exist).")

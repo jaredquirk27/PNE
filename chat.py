@@ -1,7 +1,9 @@
+from conversation_history import save_message
 from llm_provider import generate_response
 
 
 def chat_with_character(
+    conn,
     cursor,
     character,
     build_ai_prompt
@@ -23,8 +25,26 @@ def chat_with_character(
             user_message
         )
 
+        save_message(
+            cursor,
+            character,
+            "User",
+            user_message
+        )
+
+        conn.commit()
+
         response = generate_response(
             prompt
         )
 
         print(f"\n{character}: {response}")
+
+        save_message(
+            cursor,
+            character,
+            character,
+            response
+        )
+
+        conn.commit()

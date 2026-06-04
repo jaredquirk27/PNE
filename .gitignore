@@ -1,0 +1,8 @@
+.env
+*.db
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+_legacy_gitignore_directory/

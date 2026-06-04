@@ -228,4 +228,3 @@ def show_quest_ids(cursor):
             f"ID {quest[0]} - {quest[1]}"
         )
 
-print("Quest Module Complete")

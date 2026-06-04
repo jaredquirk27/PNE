@@ -16,8 +16,6 @@ from prompt_builder import *
 from chat import chat_with_character
 from llm_provider import *
 
-
-
 # ========================
 # TIME FUNCTIONS
 # ========================
@@ -546,6 +544,7 @@ while running:
        )
 
         chat_with_character(
+            conn,
             cursor,
             character,
             build_ai_prompt

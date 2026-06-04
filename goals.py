@@ -95,4 +95,3 @@ def check_goal_completion(cursor):
                 goal[0]
             ))
 
-print("GOAL MODULE LOADED")
