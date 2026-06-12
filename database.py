@@ -61,6 +61,8 @@ def create_tables(cursor):
     )
     """)
 
+
+
     # ==========================
     # WORLD STATE
     # ==========================
@@ -88,9 +90,25 @@ def create_tables(cursor):
         name TEXT UNIQUE,
         trust INTEGER,
         relationship_status TEXT,
-        last_interaction_day INTEGER
+        last_interaction_day INTEGER,
+        persona TEXT DEFAULT '',
+        speaking_style TEXT DEFAULT ''
     )
     """)
+
+    add_column_if_missing(
+        cursor,
+        "characters",
+        "persona",
+        "persona TEXT DEFAULT ''"
+    )
+
+    add_column_if_missing(
+        cursor,
+        "characters",
+        "speaking_style",
+        "speaking_style TEXT DEFAULT ''"
+    )
 
     # ==========================
     # STORY FLAGS
@@ -173,3 +191,16 @@ def create_tables(cursor):
     )
     """)
 
+# ==========================
+# STORY STATE
+# ==========================
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS story_state (
+        character_name TEXT PRIMARY KEY,
+        current_location TEXT,
+        current_scene TEXT,
+        current_story_arc TEXT,
+        current_quest TEXT
+    )
+    """)

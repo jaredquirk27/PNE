@@ -7,19 +7,30 @@ def add_character(
     name,
     trust,
     relationship_status,
-    last_interaction_day
+    last_interaction_day,
+    persona="",
+    speaking_style=""
 ):
 
     cursor.execute("""
     INSERT OR IGNORE INTO characters
-    (name, trust, relationship_status, last_interaction_day)
-    VALUES (?, ?, ?, ?)
+    (
+        name,
+        trust,
+        relationship_status,
+        last_interaction_day,
+        persona,
+        speaking_style
+    )
+    VALUES (?, ?, ?, ?, ?, ?)
     """,
     (
         name,
         trust,
         relationship_status,
-        last_interaction_day
+        last_interaction_day,
+        persona,
+        speaking_style
     ))
 
 
@@ -35,6 +46,17 @@ def get_character(cursor, name):
     return cursor.fetchone()
 
 
+def get_characters(cursor):
+
+    cursor.execute("""
+    SELECT *
+    FROM characters
+    ORDER BY name
+    """)
+
+    return cursor.fetchall()
+
+
 def show_character(character):
 
     if not character:
@@ -46,6 +68,12 @@ def show_character(character):
     print(f"Trust: {character[2]}")
     print(f"Relationship: {character[3]}")
     print(f"Last Interaction Day: {character[4]}")
+
+    if len(character) > 5 and character[5]:
+        print(f"Persona: {character[5]}")
+
+    if len(character) > 6 and character[6]:
+        print(f"Speaking Style: {character[6]}")
 
 
 def update_relationship_status(
@@ -133,6 +161,23 @@ def update_trust(
     )
 
 
+def update_last_interaction_day(
+    cursor,
+    name,
+    day
+):
+
+    cursor.execute("""
+    UPDATE characters
+    SET last_interaction_day = ?
+    WHERE name = ?
+    """,
+    (
+        day,
+        name
+    ))
+
+
 def create_character(
     cursor,
     get_current_day
@@ -142,12 +187,22 @@ def create_character(
         "Character Name: "
     )
 
+    persona = input(
+        "Persona (optional): "
+    )
+
+    speaking_style = input(
+        "Speaking Style (optional): "
+    )
+
     add_character(
         cursor,
         name,
         50,
         "Acquaintance",
-        get_current_day(cursor)
+        get_current_day(cursor),
+        persona,
+        speaking_style
     )
 
     print(f"{name} created!")

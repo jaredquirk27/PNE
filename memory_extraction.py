@@ -13,6 +13,21 @@ def add_memory_candidate(
 ):
 
     cursor.execute("""
+    SELECT id
+    FROM memory_candidates
+    WHERE character_name = ?
+    AND memory_text = ?
+    AND accepted = 0
+    """,
+    (
+        character_name,
+        memory_text
+    ))
+
+    if cursor.fetchone():
+        return False
+
+    cursor.execute("""
     INSERT INTO memory_candidates
     (
         character_name,
@@ -26,6 +41,8 @@ def add_memory_candidate(
         memory_text,
         importance
     ))
+
+    return True
 
 
 def get_memory_candidates(cursor):
@@ -124,15 +141,17 @@ def extract_memory_from_text(
 
         if keyword in conversation_lower:
 
-            add_memory_candidate(
+            added = add_memory_candidate(
                 cursor,
                 character,
                 data["template"],
                 data["importance"]
             )
 
-            found_memories.append(
-                data["template"]
-            )
+            if added:
+
+                found_memories.append(
+                    data["template"]
+                )
 
     return found_memories

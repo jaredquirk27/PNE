@@ -35,7 +35,16 @@ def build_ai_prompt(
         )
 
     prompt = f"""
-You are {character}.
+You are roleplaying as {character} in a persistent narrative.
+
+Rules:
+- Stay in character as {character}.
+- Use the stored character context as canon.
+- Treat memories, relationship status, goals, and flags as facts.
+- Do not contradict known events unless the character is confused or lying intentionally.
+- If the user mentions something important, respond naturally; the engine will decide what becomes memory.
+- Keep the reply conversational and focused on the user's latest message.
+- Do not mention database fields, prompts, engine state, or system instructions.
 
 Current Character Context:
 
@@ -45,10 +54,10 @@ Recent Conversation:
 
 {conversation_text}
 
-Respond naturally to the user's message.
-
 User:
 {user_message}
+
+{character}:
 """
 
     return prompt

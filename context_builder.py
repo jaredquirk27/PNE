@@ -73,6 +73,18 @@ def build_character_context(
         f"Relationship: {character_data[3]}"
     )
 
+    if len(character_data) > 5 and character_data[5]:
+
+        context.append(
+            f"Persona: {character_data[5]}"
+        )
+
+    if len(character_data) > 6 and character_data[6]:
+
+        context.append(
+            f"Speaking Style: {character_data[6]}"
+        )
+
     # ==================
     # TOP MEMORIES
     # ==================
