@@ -12,7 +12,8 @@ def add_initiative(
     description,
     target_location,
     target_scene,
-    created_day
+    created_day,
+    initiative_source="USER"
 ):
 
     cursor.execute("""
@@ -25,9 +26,10 @@ def add_initiative(
         target_scene,
         status,
         created_day,
-        completed_day
+        completed_day,
+        initiative_source
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     """,
     (
         character_name,
@@ -37,7 +39,8 @@ def add_initiative(
         target_scene,
         "Active",
         created_day,
-        None
+        None,
+        initiative_source
     ))
 
 
@@ -90,6 +93,10 @@ def show_initiatives(initiatives):
         print(f"Location: {initiative[4]}")
         print(f"Scene: {initiative[5]}")
         print(f"Status: {initiative[6]}")
+
+        if len(initiative) > 9:
+            print(f"Source: {initiative[9]}")
+
         print("-------------------")
 
 

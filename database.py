@@ -218,6 +218,25 @@ def create_tables(cursor):
         target_scene TEXT,
         status TEXT,
         created_day INTEGER,
-        completed_day INTEGER
+        completed_day INTEGER,
+                   initiative_source TEXT
     )
     """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS initiative_settings (
+        character_name TEXT PRIMARY KEY,
+        messages_since_last INTEGER DEFAULT 0,
+        generation_threshold INTEGER DEFAULT 10
+    )
+    """)
+    try:
+
+        cursor.execute("""
+        ALTER TABLE character_initiatives
+        ADD COLUMN initiative_source TEXT DEFAULT 'USER'
+        """)
+
+    except:
+
+        pass

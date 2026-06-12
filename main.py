@@ -16,6 +16,9 @@ from bot_flow import start_character_bot
 from llm_provider import *
 from story_state import set_story_state, get_story_state
 from initiatives import *
+from initiative_generator import *
+from initiative_scheduler import *
+
 
 # ========================
 # TIME FUNCTIONS
@@ -112,6 +115,7 @@ def main_menu():
     print("26. Create Initiative")
     print("27. Show Initiatives")
     print("28. Complete Initiative")
+    print("29. Generate Initiative")
     print("0. Exit")
 
     return input(
@@ -660,6 +664,40 @@ def main():
             )
 
             conn.commit()
+
+        elif choice == "29":
+
+            character_name = input(
+                "Character Name: "
+            )
+
+            initiative = generate_and_save_initiative(
+                cursor,
+                character_name,
+                get_current_day(cursor)
+            )
+
+            conn.commit()
+
+            print("\n=== NEW INITIATIVE CREATED ===\n")
+
+            print(
+                f"Title: {initiative['title']}"
+            )
+
+            print(
+                f"Description: {initiative['description']}"
+            )
+
+            print(
+                f"Location: {initiative['location']}"
+            )
+
+            print(
+                f"Scene: {initiative['scene']}"
+            )
+
+
         # ====================
         # EXIT
         # ====================

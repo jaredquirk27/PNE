@@ -2,7 +2,8 @@ from conversation_history import save_message
 from characters import update_last_interaction_day
 from llm_provider import generate_response
 from memory_extraction import extract_memory_from_text
-
+from initiative_scheduler import *
+from initiative_generator import generate_and_save_initiative
 
 def persist_chat_exchange(
     cursor,
@@ -90,6 +91,62 @@ def chat_with_character(
         )
 
         conn.commit()
+
+        increment_message_counter(
+            cursor,
+            character
+        )
+
+        if should_generate_initiative(
+            cursor,
+            character
+        ):
+
+            initiative = (
+                generate_and_save_initiative(
+                    cursor,
+                    character,
+                    current_day
+                )
+            )
+
+            reset_message_counter(
+                cursor,
+                character
+            )
+
+            conn.commit()
+
+            print(
+                "\n===================="
+            )
+
+            print(
+                "RUE HAS A NEW IDEA"
+            )
+
+            print(
+                "===================="
+            )
+
+            print(
+                f"Title: {initiative['title']}"
+            )
+
+            print(
+                f"Description: "
+                f"{initiative['description']}"
+            )
+
+            print(
+                f"Location: "
+                f"{initiative['location']}"
+            )
+
+            print(
+                f"Scene: "
+                f"{initiative['scene']}"
+            )
 
         if found_memories:
 
