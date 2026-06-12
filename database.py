@@ -204,3 +204,20 @@ def create_tables(cursor):
         current_quest TEXT
     )
     """)
+    # ==========================
+    # CHARACTER INITIATIVES
+    # ==========================
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS character_initiatives (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        character_name TEXT,
+        title TEXT,
+        description TEXT,
+        target_location TEXT,
+        target_scene TEXT,
+        status TEXT,
+        created_day INTEGER,
+        completed_day INTEGER
+    )
+    """)

@@ -4,6 +4,7 @@ from goals import get_active_goals
 from story_state import get_story_state
 from quests import get_active_quests
 from flags import get_all_flags
+from initiatives import get_active_initiatives
 
 
 # ==========================
@@ -97,6 +98,11 @@ def build_character_context(
     active_quests = get_active_quests(
         cursor
     )
+    active_initiatives = (
+        get_active_initiatives(
+            cursor
+        )
+    )
 
     context = []
 
@@ -159,7 +165,23 @@ def build_character_context(
         context.append(
             "- No story state found"
         )
+    # ==================
+    # CURRENT DAY
+    # ==================
 
+    cursor.execute("""
+    SELECT current_day
+    FROM world_state
+    WHERE id = 1
+    """)
+
+    current_day = cursor.fetchone()
+
+    if current_day:
+
+        context.append(
+            f"\nCurrent Day: {current_day[0]}"
+        )
     # ==================
     # TOP MEMORIES
     # ==================
@@ -225,7 +247,45 @@ def build_character_context(
         context.append(
             "- No active quests"
         )
+    # ==================
+    # ACTIVE INITIATIVES
+    # ==================
 
+    context.append(
+        "\nActive Initiatives:"
+    )
+
+    character_initiatives = []
+
+    for initiative in active_initiatives:
+
+        if initiative[1] == character:
+
+            character_initiatives.append(
+                initiative
+            )
+
+    if character_initiatives:
+
+        for initiative in character_initiatives:
+
+            context.append(
+                f"- {initiative[2]}"
+            )
+
+            context.append(
+                f"  Location: {initiative[4]}"
+            )
+
+            context.append(
+                f"  Scene: {initiative[5]}"
+            )
+
+    else:
+
+        context.append(
+            "- No active initiatives"
+        )
     # ==================
     # RECENT EVENTS
     # ==================

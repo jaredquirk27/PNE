@@ -15,7 +15,7 @@ from chat import chat_with_character
 from bot_flow import start_character_bot
 from llm_provider import *
 from story_state import set_story_state, get_story_state
-
+from initiatives import *
 
 # ========================
 # TIME FUNCTIONS
@@ -109,6 +109,9 @@ def main_menu():
     print("23. Chat with Character")
     print("24. Set Story State")
     print("25. Show Story State")
+    print("26. Create Initiative")
+    print("27. Show Initiatives")
+    print("28. Complete Initiative")
     print("0. Exit")
 
     return input(
@@ -596,7 +599,67 @@ def main():
             else:   
 
                 print("No story state found.")
+        elif choice == "26":
 
+            character_name = input(
+                "Character Name: "
+            )
+
+            title = input(
+                "Initiative Title: "
+            )
+
+            description = input(
+                "Description: "
+            )
+
+            target_location = input(
+                "Target Location: "
+            )
+
+            target_scene = input(
+                "Target Scene: "
+            )
+
+            add_initiative(
+                cursor,
+                character_name,
+                title,
+                description,
+                target_location,
+                target_scene,
+                get_current_day(cursor)
+            )
+
+            conn.commit()
+
+            print("Initiative created!")
+
+        elif choice == "27":
+
+            initiatives = get_initiatives(
+                cursor
+            )
+
+            show_initiatives(
+                initiatives
+            )
+
+        elif choice == "28":
+
+            initiative_id = int(
+                input(
+                    "Initiative ID: "
+                )
+            )
+
+            complete_initiative(
+                cursor,
+                initiative_id,
+                get_current_day(cursor)
+            )
+
+            conn.commit()
         # ====================
         # EXIT
         # ====================
