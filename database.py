@@ -21,7 +21,8 @@ def add_column_if_missing(cursor, table_name, column_name, column_definition):
 
 def initialize_database():
 
-    conn = sqlite3.connect("story_engine.db")
+    conn = sqlite3.connect("story_engine.db",
+    check_same_thread=False)
     cursor = conn.cursor()
 
     create_tables(cursor)

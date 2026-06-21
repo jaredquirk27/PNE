@@ -1,16 +1,8 @@
 from constants import MEMORY_PATTERNS
+import re
 
 
-# ==========================
-# MEMORY CANDIDATES
-# ==========================
-
-def add_memory_candidate(
-    cursor,
-    character_name,
-    memory_text,
-    importance
-):
+def add_memory_candidate(cursor, character_name, memory_text, importance):
 
     cursor.execute("""
     SELECT id
@@ -19,10 +11,7 @@ def add_memory_candidate(
     AND memory_text = ?
     AND accepted = 0
     """,
-    (
-        character_name,
-        memory_text
-    ))
+    (character_name, memory_text))
 
     if cursor.fetchone():
         return False
@@ -36,11 +25,7 @@ def add_memory_candidate(
     )
     VALUES (?, ?, ?)
     """,
-    (
-        character_name,
-        memory_text,
-        importance
-    ))
+    (character_name, memory_text, importance))
 
     return True
 
@@ -63,20 +48,15 @@ def show_memory_candidates(candidates):
         print("No memory candidates.")
         return
 
-    print("\n=== Memory Candidates ===\n")
+    print("\\n=== Memory Candidates ===\\n")
 
     for memory in candidates:
-
         print(f"ID: {memory[0]}")
         print(f"Character: {memory[1]}")
         print(f"Memory: {memory[2]}")
         print(f"Importance: {memory[3]}")
         print("-------------------")
 
-
-# ==========================
-# MEMORY ACCEPTANCE
-# ==========================
 
 def accept_memory_candidate(
     cursor,
@@ -121,9 +101,55 @@ def accept_memory_candidate(
     (memory_id,))
 
 
-# ==========================
-# EXTRACTION ENGINE
-# ==========================
+def extract_narrative_memories(conversation_text):
+
+    memories = []
+    lines = [line.strip() for line in conversation_text.split("\\n") if line.strip()]
+
+    project_keywords = [
+        "rue", "pne", "react", "fastapi",
+        "api", "database", "memory",
+        "initiative", "arc", "openrouter"
+    ]
+
+    preference_patterns = [
+        r"favorite\\s+[\\w\\s]+?\\s+is\\s+(.+)",
+        r"i like\\s+(.+)",
+        r"i love\\s+(.+)",
+        r"my\\s+dog\\s+is\\s+named\\s+(.+)"
+    ]
+
+    for line in lines:
+
+        lower = line.lower()
+
+        if any(keyword in lower for keyword in project_keywords):
+            memories.append((f"Project discussion: {line[:180]}", 8))
+
+        for pattern in preference_patterns:
+            if re.search(pattern, lower):
+                memories.append(
+                    (f"User preference or personal fact: {line[:180]}", 9)
+                )
+                break
+
+        if any(
+            phrase in lower
+            for phrase in [
+                "got it working",
+                "fixed",
+                "solved",
+                "working now",
+                "connected",
+                "successfully"
+            ]
+        ):
+            memories.append(
+                (f"Shared accomplishment: {line[:180]}", 9)
+            )
+
+    return memories[:3]
+
 
 def extract_memory_from_text(
     cursor,
@@ -131,9 +157,9 @@ def extract_memory_from_text(
     conversation_text
 ):
 
-    conversation_lower = (
-        conversation_text.lower()
-    )
+    print("MEMORY EXTRACTION FIRED")
+
+    conversation_lower = conversation_text.lower()
 
     found_memories = []
 
@@ -149,9 +175,24 @@ def extract_memory_from_text(
             )
 
             if added:
+                found_memories.append(data["template"])
 
-                found_memories.append(
-                    data["template"]
-                )
+    narrative_memories = extract_narrative_memories(
+        conversation_text
+    )
+
+    for memory_text, importance in narrative_memories:
+
+        added = add_memory_candidate(
+            cursor,
+            character,
+            memory_text,
+            importance
+        )
+
+        if added:
+            found_memories.append(memory_text)
+
+    print("FOUND MEMORIES:", found_memories)
 
     return found_memories

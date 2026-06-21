@@ -1,95 +1,106 @@
+import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([
+    {
+      sender: "Rue",
+      text: "Welcome back, Jared."
+    }
+  ]);
+
+  async function sendMessage() {
+    if (!message.trim()) return;
+
+    const userMessage = {
+      sender: "You",
+      text: message
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+
+    const currentMessage = message;
+
+    setMessage("");
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            character: "Rue",
+            message: currentMessage
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      setMessages(prev => [
+        ...prev,
+        {
+          sender: "Rue",
+          text: data.response
+        }
+      ]);
+    } catch (error) {
+      console.error(error);
+
+      setMessages(prev => [
+        ...prev,
+        {
+          sender: "System",
+          text: "Unable to contact backend."
+        }
+      ]);
+    }
+  }
+
   return (
     <div className="app">
 
-      <div className="left-panel">
-        <h2>Rue</h2>
-
-        <div className="card">
-          <h3>Character</h3>
-          <p>Close Friend</p>
-          <p>Trust: 79</p>
-        </div>
-
-        <div className="card">
-          <h3>Memories</h3>
-          <ul>
-            <li>Shared Secret</li>
-            <li>Mission Complete</li>
-            <li>Gift Given</li>
-          </ul>
-        </div>
+      <div className="header">
+        <h1>RUE</h1>
       </div>
 
-      <div className="chat-panel">
+      <div className="chat-window">
 
-        <div className="chat-header">
-          RUE
-        </div>
-
-        <div className="chat-window">
-
-          <div className="message rue">
-            Welcome back, Jared.
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={
+              msg.sender === "You"
+                ? "user-message"
+                : "rue-message"
+            }
+          >
+            <strong>{msg.sender}: </strong>
+            {msg.text}
           </div>
-
-          <div className="message user">
-            How are things at Gorza's Den?
-          </div>
-
-          <div className="message rue">
-            The espresso machine is plotting something.
-          </div>
-
-        </div>
-
-        <div className="chat-input">
-          <input
-            type="text"
-            placeholder="Message Rue..."
-          />
-
-          <button>
-            Send
-          </button>
-        </div>
+        ))}
 
       </div>
 
-      <div className="right-panel">
+      <div className="input-area">
 
-        <div className="card">
-          <h3>Story State</h3>
+        <input
+          value={message}
+          onChange={(e) =>
+            setMessage(e.target.value)
+          }
+          placeholder="Message Rue..."
+        />
 
-          <p>
-            <strong>Location:</strong>
-            {" "}Gorza's Den
-          </p>
-
-          <p>
-            <strong>Scene:</strong>
-            {" "}Sharing drinks while discussing RUE
-          </p>
-        </div>
-
-        <div className="card">
-          <h3>Quest</h3>
-
-          <ul>
-            <li>Create Shared History</li>
-            <li>Improve Memory Consistency</li>
-          </ul>
-        </div>
-
-        <div className="card">
-          <h3>Initiatives</h3>
-
-          <ul>
-            <li>Meet At Gorza's Den</li>
-          </ul>
-        </div>
+        <button
+          onClick={sendMessage}
+        >
+          Send
+        </button>
 
       </div>
 
