@@ -32,3 +32,70 @@ Notes
 
 * Investigate whether memory_already_canonized() should be character-specific instead of global.
 * Continue testing relationship memories and initiative generation using extracted preferences.
+
+## ARC Phase 1 Started
+
+Date: 2026-06-23
+
+Goal:
+Build the first implementation of Adaptive Resolution Core (ARC).
+
+Phase 1 Scope:
+- D20 success resolution
+- D6 threat/advantage resolution
+- ARCResult dataclass
+- resolve_action() API
+- Test harness
+
+Excluded:
+- Combat
+- UI
+- Character stats
+- Quest integration
+- Memory integration
+
+Status:
+In Development
+
+NEXT SESSION GOAL
+
+Project: Persistent Narrative Engine (PNE)
+
+Current State:
+
+* Memory extraction system validated
+* Character-specific duplicate detection fixed
+* ARC Phase 1 complete
+* ARC Integration Design Document complete
+
+Next Objective:
+Begin ARC Phase 2 Integration
+
+Phase 2 Tasks:
+
+1. Review ARC Phase 1 code
+    * Verify architecture matches design document
+    * Confirm no unwanted coupling
+2. Create arc_adapter.py
+    * Bridge ARC to PNE systems
+    * No direct database modifications yet
+3. Create ARC Event Pipeline
+    * ARC result → Event
+    * Event stored in events table
+4. Create ARC Memory Candidate Pipeline
+    * ARC result → Memory Candidate
+    * No direct memory creation
+5. Create RPG Dial Prototype
+    * Companion Mode
+    * Fanfiction Mode
+    * RPG Mode
+6. Test with Rue
+    Example:
+    “Convince Kavik to reveal information.”
+    ARC resolves action.
+    Event generated.
+    Context updated.
+    Narrative reflects outcome.
+
+Success Condition:
+ARC influences narrative without breaking existing memory, quest, or relationship systems.
