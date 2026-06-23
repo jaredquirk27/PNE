@@ -1,31 +1,73 @@
 from constants import MEMORY_PATTERNS
 import re
+import hashlib
 
 
-def add_memory_candidate(cursor, character_name, memory_text, importance):
+def generate_memory_hash(text):
+    return hashlib.md5(text.lower().strip().encode()).hexdigest()
 
-    cursor.execute("""
-    SELECT id
-    FROM memory_candidates
-    WHERE character_name = ?
-    AND memory_text = ?
-    AND accepted = 0
-    """,
-    (character_name, memory_text))
 
-    if cursor.fetchone():
-        return False
+def add_memory_candidate(
+    cursor,
+    character_name,
+    memory_text,
+    importance,
+    category="story_event",
+    entity=""
+):
 
-    cursor.execute("""
-    INSERT INTO memory_candidates
-    (
-        character_name,
-        memory_text,
-        importance
-    )
-    VALUES (?, ?, ?)
-    """,
-    (character_name, memory_text, importance))
+    memory_hash = generate_memory_hash(memory_text)
+
+    try:
+        cursor.execute("""
+        SELECT id
+        FROM memory_candidates
+        WHERE memory_hash = ?
+        """, (memory_hash,))
+
+        if cursor.fetchone():
+            return False
+    except:
+        pass
+
+    try:
+        cursor.execute("""
+        INSERT INTO memory_candidates
+        (
+            character_name,
+            memory_text,
+            importance,
+            accepted,
+            category,
+            entity,
+            memory_hash
+        )
+        VALUES (?, ?, ?, 0, ?, ?, ?)
+        """,
+        (
+            character_name,
+            memory_text,
+            importance,
+            category,
+            entity,
+            memory_hash
+        ))
+    except:
+        cursor.execute("""
+        INSERT INTO memory_candidates
+        (
+            character_name,
+            memory_text,
+            importance,
+            accepted
+        )
+        VALUES (?, ?, ?, 0)
+        """,
+        (
+            character_name,
+            memory_text,
+            importance
+        ))
 
     return True
 
@@ -69,86 +111,62 @@ def accept_memory_candidate(
     SELECT *
     FROM memory_candidates
     WHERE id = ?
-    """,
-    (memory_id,))
+    """, (memory_id,))
 
     memory = cursor.fetchone()
 
     if not memory:
-        print("Memory not found.")
         return
 
     day = get_current_day(cursor)
-
-    character_name = memory[1]
-    memory_text = memory[2]
-    importance = memory[3]
 
     add_event(
         cursor,
         day,
         "memory_extracted",
-        character_name,
-        memory_text,
-        importance
+        memory[1],
+        memory[2],
+        memory[3]
     )
 
     cursor.execute("""
     UPDATE memory_candidates
     SET accepted = 1
     WHERE id = ?
-    """,
-    (memory_id,))
+    """, (memory_id,))
 
 
-def extract_narrative_memories(conversation_text):
+def extract_fact_memories(conversation_text):
 
     memories = []
-    lines = [line.strip() for line in conversation_text.split("\\n") if line.strip()]
 
-    project_keywords = [
-        "rue", "pne", "react", "fastapi",
-        "api", "database", "memory",
-        "initiative", "arc", "openrouter"
-    ]
+    for line in conversation_text.splitlines():
 
-    preference_patterns = [
-        r"favorite\\s+[\\w\\s]+?\\s+is\\s+(.+)",
-        r"i like\\s+(.+)",
-        r"i love\\s+(.+)",
-        r"my\\s+dog\\s+is\\s+named\\s+(.+)"
-    ]
+        clean = line.strip()
 
-    for line in lines:
+        if not clean:
+            continue
 
-        lower = line.lower()
+        lower = clean.lower()
 
-        if any(keyword in lower for keyword in project_keywords):
-            memories.append((f"Project discussion: {line[:180]}", 8))
+        if "stands for" in lower:
+            memories.append((clean[:150], 10))
 
-        for pattern in preference_patterns:
-            if re.search(pattern, lower):
-                memories.append(
-                    (f"User preference or personal fact: {line[:180]}", 9)
-                )
-                break
-
-        if any(
-            phrase in lower
-            for phrase in [
-                "got it working",
-                "fixed",
-                "solved",
-                "working now",
-                "connected",
-                "successfully"
+        elif any(
+            entity in lower
+            for entity in [
+                "arc",
+                "pne",
+                "kavik",
+                "nix",
+                "rue meridian",
+                "melbourne dragons"
             ]
-        ):
-            memories.append(
-                (f"Shared accomplishment: {line[:180]}", 9)
-            )
+        ) and " is " in lower:
 
-    return memories[:3]
+            memories.append((clean[:150], 8))
+
+    return memories
 
 
 def extract_memory_from_text(
@@ -157,11 +175,9 @@ def extract_memory_from_text(
     conversation_text
 ):
 
-    print("MEMORY EXTRACTION FIRED")
+    found_memories = []
 
     conversation_lower = conversation_text.lower()
-
-    found_memories = []
 
     for keyword, data in MEMORY_PATTERNS.items():
 
@@ -175,13 +191,15 @@ def extract_memory_from_text(
             )
 
             if added:
-                found_memories.append(data["template"])
+                found_memories.append(
+                    data["template"]
+                )
 
-    narrative_memories = extract_narrative_memories(
+    fact_memories = extract_fact_memories(
         conversation_text
     )
 
-    for memory_text, importance in narrative_memories:
+    for memory_text, importance in fact_memories:
 
         added = add_memory_candidate(
             cursor,
@@ -191,8 +209,8 @@ def extract_memory_from_text(
         )
 
         if added:
-            found_memories.append(memory_text)
-
-    print("FOUND MEMORIES:", found_memories)
+            found_memories.append(
+                memory_text
+            )
 
     return found_memories

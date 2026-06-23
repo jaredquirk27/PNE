@@ -269,7 +269,7 @@ def main():
                 "Character Name: "
             )
 
-            memories = get_top_memories(
+            memories = (
                 cursor,
                 name
             )

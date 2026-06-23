@@ -26,7 +26,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/chat",
+        "http://192.168.0.106:8000/chat",
         {
           method: "POST",
           headers: {
@@ -89,13 +89,18 @@ function App() {
       <div className="input-area">
 
         <input
-          value={message}
+        value={message}
           onChange={(e) =>
             setMessage(e.target.value)
           }
-          placeholder="Message Rue..."
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              sendMessage();
+            }
+        }}
+            placeholder="Message Rue..."
         />
-
         <button
           onClick={sendMessage}
         >

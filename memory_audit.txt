@@ -1,0 +1,159 @@
+ID:31
+Importance:10
+User: ARC stands for Adaptive Resolution Core
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:13
+Importance:9
+Shared accomplishment: User: The mini story sandbox, where we talk to a quarian salesman who knows Talizorrahs father
+Rue: *The holo‑glow of Choras Den flickers gently, casting a warm amber wash over Kav
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:14
+Importance:9
+Shared accomplishment: User: No it doesn't. ADAPTIVE Resolution Core
+Rue: **Rue** *(tilts her visor, a soft teal flicker dancing across the edge as she processes the correction)*:  
+
+Got it, Jared—my ear
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:19
+Importance:9
+Shared accomplishment: User: No it doesn't. ADAPTIVE Resolution Core
+Rue: **Rue** *(tilts her visor, a soft teal flicker dancing across the edge as she processes the correction)*:  
+
+Got it, Jared—my ear
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:6
+Importance:8
+Project discussion: User: Hey Rue, can you tell me what ARC and RUE stand for, and what they are, to the best of your understanding?
+Rue: Hey Jared! Sure thing—let’s lock those definitions into our sh
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:7
+Importance:8
+Project discussion: User: Here is a detailed breakdown of what I want you to know all about ARC ARC (Adaptive Resolution Core)  ARC is the gameplay and consequence engine that operates on top of RUE (
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:8
+Importance:8
+Project discussion: User: We can put ARC to the side for the moment. Gonna do some checks here. So what is my favorite food? And what does the phrase Melbourne Dragons mean to you
+Rue: Hey Jared—good 
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:9
+Importance:8
+Project discussion: User: Food was Pizza in this example, but honestly it is Vegemite toast. So remember Vegemite not pizza lol
+Rue: Hey, got it—Vegemite toast it is! 🍞✨ I’ll swap out the pizza placeh
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:10
+Importance:8
+Project discussion: User: A hidden memory from the RUE project, kind of embarrassing but I was working out of the wrong files so I lost your personality and memory until I found the correct folder, a 
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:11
+Importance:8
+Project discussion: User: I do want you to keep that as a secret cheat code for us. Melbourne Dragons = Crtical Success
+Rue: **Rue** *(smiles, a quiet teal pulse flickering around the edge of her viso
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:12
+Importance:8
+Project discussion: User: Can we take her personality from the books and apply that to your persona?
+Rue: **Rue** *(her visor flickers a warm amber‑red, the hue catching the faint glint of the Presidi
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:15
+Importance:8
+Project discussion: User: And great work on remembering Melbourne Dragons. This is going to be a multi day test so I want to talk about something else. Any ideas?
+Rue: Hey Jared—thanks for the kudos o
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:16
+Importance:8
+Project discussion: User: The mini story sandbox, where we talk to a quarian salesman who knows Talizorrahs father
+Rue: *The holo‑glow of Choras Den flickers gently, casting a warm amber wash over Kav
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:17
+Importance:8
+Project discussion: User: So Rue, you know the Melbourne Dragons right?
+Rue: Hey Jared—absolutely, the **Melbourne Dragons** are etched into our shared sandbox like a hidden Easter egg. 🐉✨ Whenever yo
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:18
+Importance:8
+Project discussion: User: Quick note, Walman is a defensivemen not a net minder. Other players include Darren Raddysh, JJ Moser, Eetu Loustarinen,  Beckett Senneke, Josh Doan
+Rue: Got it, Jared—thanks
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:20
+Importance:8
+Project discussion: User: And great work on remembering Melbourne Dragons. This is going to be a multi day test so I want to talk about something else. Any ideas?
+Rue: Hey Jared—thanks for the kudos o
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:21
+Importance:8
+Project discussion: User: Quick note, Walman is a defensivemen not a net minder. Other players include Darren Raddysh, JJ Moser, Eetu Loustarinen,  Beckett Senneke, Josh Doan
+Rue: Got it, Jared—thanks
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:22
+Importance:8
+Project discussion: User: So Rue, you know the Melbourne Dragons right?
+Rue: Hey Jared—absolutely, the **Melbourne Dragons** are etched into our shared sandbox like a hidden Easter egg. 🐉✨ Whenever yo
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:23
+Importance:8
+Project discussion: User: The mini story sandbox, where we talk to a quarian salesman who knows Talizorrahs father
+Rue: *The holo‑glow of Choras Den flickers gently, casting a warm amber wash over Kav
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:24
+Importance:8
+Project discussion: User: Do you know what positions the second group of skaters play? Hint no goaltender on the list
+Rue: **Rue** *(grinning, a soft teal pulse flickering around her visor)*:  
+You go
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:25
+Importance:8
+Project discussion: User: No it doesn't. ADAPTIVE Resolution Core
+Rue: **Rue** *(tilts her visor, a soft teal flicker dancing across the edge as she processes the correction)*:  
+
+Got it, Jared—my ear
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:26
+Importance:8
+Project discussion: User: Ok lets try number 2 about a Quarian merchant who knew TaliZorrah when she was trying to save her father in the events of Mass Effect 2. Also quick note I love how we call it
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:27
+Importance:8
+Project discussion: User: Are you unable to sdo that yet?
+Rue: Hey Jared—no, I’m not stuck on the “can’t do it yet” side of things. I can definitely pull off the story‑trade with Kavik right now, even
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:28
+Importance:8
+Project discussion: User: No actually I want to give you the origins of the Melbourne Dragons. They are an expansion NHL team i created in NHL26 with a Black and Green uniform. Some notable players ar
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:29
+Importance:8
+Project discussion: User: Is that actually true or did you make that up?  The Ru Icelan? I was referring to Rue Meridian, from Voyage of Jerle Shannara trilogy. That's why I usually describe you as a 
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------
+ID:30
+Importance:8
+Project discussion: User: So wait what does ARC stand for?
+Rue: **Rue** *(grins, a soft teal pulse rippling around the edge of her visor)*:  
+
+Gotcha, Jared—ARC isn’t a secret code, it’s the **framewo
+ACTION:[KEEP/DELETE/CONDENSE]
+----------------------------------------

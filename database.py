@@ -21,8 +21,11 @@ def add_column_if_missing(cursor, table_name, column_name, column_definition):
 
 def initialize_database():
 
-    conn = sqlite3.connect("story_engine.db",
-    check_same_thread=False)
+    conn = sqlite3.connect(
+        "story_engine.db",
+        check_same_thread=False
+    )
+
     cursor = conn.cursor()
 
     create_tables(cursor)
@@ -41,7 +44,7 @@ def initialize_database():
     conn.commit()
 
     print("Database initialized and tables created (if not exist).")
-    
+
     return conn, cursor
 
 
@@ -61,8 +64,6 @@ def create_tables(cursor):
         importance INTEGER
     )
     """)
-
-
 
     # ==========================
     # WORLD STATE
@@ -192,9 +193,30 @@ def create_tables(cursor):
     )
     """)
 
-# ==========================
-# STORY STATE
-# ==========================
+    add_column_if_missing(
+        cursor,
+        "memory_candidates",
+        "category",
+        "category TEXT DEFAULT 'story_event'"
+    )
+
+    add_column_if_missing(
+        cursor,
+        "memory_candidates",
+        "entity",
+        "entity TEXT DEFAULT ''"
+    )
+
+    add_column_if_missing(
+        cursor,
+        "memory_candidates",
+        "memory_hash",
+        "memory_hash TEXT DEFAULT ''"
+    )
+
+    # ==========================
+    # STORY STATE
+    # ==========================
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS story_state (
@@ -205,6 +227,7 @@ def create_tables(cursor):
         current_quest TEXT
     )
     """)
+
     # ==========================
     # CHARACTER INITIATIVES
     # ==========================
@@ -220,7 +243,7 @@ def create_tables(cursor):
         status TEXT,
         created_day INTEGER,
         completed_day INTEGER,
-                   initiative_source TEXT
+        initiative_source TEXT
     )
     """)
 
@@ -231,13 +254,11 @@ def create_tables(cursor):
         generation_threshold INTEGER DEFAULT 10
     )
     """)
-    try:
 
+    try:
         cursor.execute("""
         ALTER TABLE character_initiatives
         ADD COLUMN initiative_source TEXT DEFAULT 'USER'
         """)
-
     except:
-
         pass

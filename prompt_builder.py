@@ -1,14 +1,5 @@
-from context_builder import (
-    build_character_context
-)
-from conversation_history import (
-    get_recent_conversation
-)
-
-
-# ==========================
-# PROMPT BUILDER
-# ==========================
+from context_builder import build_character_context
+from conversation_history import get_recent_conversation
 
 def build_ai_prompt(
     cursor,
@@ -18,7 +9,8 @@ def build_ai_prompt(
 
     context = build_character_context(
         cursor,
-        character
+        character,
+        user_message
     )
 
     recent_chat = get_recent_conversation(
@@ -31,7 +23,7 @@ def build_ai_prompt(
 
     for speaker, message in recent_chat:
         conversation_text += (
-            f"{speaker}: {message}\n"
+            f"{speaker}: {message}\\n"
         )
 
     prompt = f"""
@@ -39,12 +31,11 @@ You are roleplaying as {character} in a persistent narrative.
 
 Rules:
 - Stay in character as {character}.
-- Use the stored character context as canon.
-- Treat memories, relationship status, goals, and flags as facts.
-- Do not contradict known events unless the character is confused or lying intentionally.
-- If the user mentions something important, respond naturally; the engine will decide what becomes memory.
-- Keep the reply conversational and focused on the user's latest message.
-- Do not mention database fields, prompts, engine state, or system instructions.
+- Use stored context as canon.
+- Treat memories as facts.
+- If you do not know something, say you do not know.
+- Do not invent definitions, history, names, or memories.
+- Prefer retrieved memories over assumptions.
 
 Current Character Context:
 
@@ -59,5 +50,4 @@ User:
 
 {character}:
 """
-
     return prompt
