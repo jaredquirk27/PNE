@@ -531,6 +531,12 @@ def main():
                 )
             )
 
+            auto_canonize_memories(
+                cursor,
+                get_current_day(cursor),
+                add_event
+            )
+
             conn.commit()
 
             if memories:

@@ -1,7 +1,8 @@
 from conversation_history import save_message
 from characters import update_last_interaction_day
+from events import add_event
 from llm_provider import generate_response
-from memory_extraction import extract_memory_from_text
+from memory_extraction import extract_memory_from_text, auto_canonize_memories
 from initiative_scheduler import *
 from initiative_generator import generate_and_save_initiative
 
@@ -10,7 +11,8 @@ def persist_chat_exchange(
     character,
     user_message,
     response,
-    current_day=1
+    current_day=1,
+    auto_canonize=True
 ):
 
     save_message(
@@ -40,11 +42,20 @@ def persist_chat_exchange(
         f"{character}: {response}"
     )
 
-    return extract_memory_from_text(
+    candidate_memories = extract_memory_from_text(
         cursor,
         character,
         exchange_text
     )
+
+    if auto_canonize:
+        auto_canonize_memories(
+            cursor,
+            current_day,
+            add_event
+        )
+
+    return candidate_memories
 
 
 def chat_with_character(

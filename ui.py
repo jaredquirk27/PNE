@@ -1,5 +1,6 @@
 from database import initialize_database
 from prompt_builder import build_ai_prompt
+from main import get_current_day
 import os
 
 print("Current Directory:")
@@ -167,7 +168,7 @@ class NarrativeApp(ctk.CTk):
                 self.character,
                 user_message,
                 response,
-                1
+                get_current_day(self.cursor)
             )
 
             self.conn.commit()

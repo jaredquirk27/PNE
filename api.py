@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from database import initialize_database
+from main import get_current_day
 from prompt_builder import build_ai_prompt
 from llm_provider import generate_response
 from chat import persist_chat_exchange
@@ -47,12 +48,13 @@ def chat(request: ChatRequest):
         prompt
     )
 
+    current_day = get_current_day(cursor)
     found_memories = persist_chat_exchange(
         cursor,
         request.character,
         request.message,
         response,
-        1
+        current_day
     )
 
     conn.commit()
